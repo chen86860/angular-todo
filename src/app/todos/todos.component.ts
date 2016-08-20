@@ -7,51 +7,52 @@ import  {TodoService} from '../todo.service'
   styleUrls: ['todos.component.css']
 })
 export class TodosComponent implements OnInit {
+  id = 1;
+  oldID;
   text;
-  oldText;
   appState = 'default';
   todos;
 
   constructor(private _todoService: TodoService) {
-
   }
 
   ngOnInit() {
     this.todos = this._todoService.getTodos();
+    this.id = this.todos[this.todos.length - 1].id || 1;
   }
 
   addTodo() {
-    console.log(this)
     var newTodo = {
+      id: this.id + 1,
       text: this.text
     };
 
+    this.id += 1;
     this.todos.push(newTodo);
     this._todoService.addTodo(newTodo)
   }
 
-  delTodo(todoText) {
-    // console.log(todoText);
+  delTodo(todo) {
     for (var i = 0; i < this.todos.length; i++) {
-      if (this.todos[i].text == todoText) {
+      if (this.todos[i].id === todo.id) {
         this.todos.splice(i, 1)
       }
     }
-    this._todoService.delTodo(todoText);
+    this._todoService.delTodo(todo.id);
   }
 
   editTodo(todo) {
     this.appState = 'edit';
     this.text = todo.text;
-    this.oldText = todo.text;
+    this.oldID = todo.id;
   }
 
   updateTodo() {
     for (var i = 0; i < this.todos.length; i++) {
-      if (this.todos[i].text == this.oldText) {
+      if (this.todos[i].id == this.oldID) {
         this.todos[i].text = this.text;
       }
     }
-    this._todoService.updateTodo(this.oldText, this.text);
+    this._todoService.updateTodo(this.oldID, this.text);
   }
 }

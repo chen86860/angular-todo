@@ -18,7 +18,7 @@
     <ul class="list-group">
       <li *ngFor="let item of todos" class="list-group-item">
         <span (click)="editTodo(item)">{{item.text}}</span>
-        <button (click)="delTodo(item.text)" class="btn btn-danger btn-xs">x</button>
+        <button (click)="delTodo(item)" class="btn btn-danger btn-xs">x</button>
       </li>
     </ul>
   </div>

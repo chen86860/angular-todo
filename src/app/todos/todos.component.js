@@ -9,40 +9,42 @@ var core_1 = require('@angular/core');
 var TodosComponent = (function () {
     function TodosComponent(_todoService) {
         this._todoService = _todoService;
+        this.id = 1;
         this.appState = 'default';
     }
     TodosComponent.prototype.ngOnInit = function () {
         this.todos = this._todoService.getTodos();
+        this.id = this.todos[this.todos.length - 1].id || 1;
     };
     TodosComponent.prototype.addTodo = function () {
-        console.log(this);
         var newTodo = {
+            id: this.id + 1,
             text: this.text
         };
+        this.id += 1;
         this.todos.push(newTodo);
         this._todoService.addTodo(newTodo);
     };
-    TodosComponent.prototype.delTodo = function (todoText) {
-        // console.log(todoText);
+    TodosComponent.prototype.delTodo = function (todo) {
         for (var i = 0; i < this.todos.length; i++) {
-            if (this.todos[i].text == todoText) {
+            if (this.todos[i].id === todo.id) {
                 this.todos.splice(i, 1);
             }
         }
-        this._todoService.delTodo(todoText);
+        this._todoService.delTodo(todo.id);
     };
     TodosComponent.prototype.editTodo = function (todo) {
         this.appState = 'edit';
         this.text = todo.text;
-        this.oldText = todo.text;
+        this.oldID = todo.id;
     };
     TodosComponent.prototype.updateTodo = function () {
         for (var i = 0; i < this.todos.length; i++) {
-            if (this.todos[i].text == this.oldText) {
+            if (this.todos[i].id == this.oldID) {
                 this.todos[i].text = this.text;
             }
         }
-        this._todoService.updateTodo(this.oldText, this.text);
+        this._todoService.updateTodo(this.oldID, this.text);
     };
     TodosComponent = __decorate([
         core_1.Component({

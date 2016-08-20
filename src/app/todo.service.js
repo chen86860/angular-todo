@@ -29,19 +29,19 @@ var TodoService = (function (_super) {
         todos.push(newTodo);
         localStorage.setItem('todos', JSON.stringify(todos));
     };
-    TodoService.prototype.delTodo = function (todoText) {
+    TodoService.prototype.delTodo = function (id) {
         var todos = JSON.parse(localStorage.getItem('todos'));
         for (var i = 0; i < todos.length; i++) {
-            if (todos[i].text == todoText) {
+            if (todos[i].id === id) {
                 todos.splice(i, 1);
             }
         }
         localStorage.setItem('todos', JSON.stringify(todos));
     };
-    TodoService.prototype.updateTodo = function (oldText, newText) {
+    TodoService.prototype.updateTodo = function (oldID, newText) {
         var todos = JSON.parse(localStorage.getItem('todos'));
         for (var i = 0; i < todos.length; i++) {
-            if (todos[i].text == oldText) {
+            if (todos[i].id == oldID) {
                 todos[i].text = newText;
             }
         }
